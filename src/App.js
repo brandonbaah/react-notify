@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import Users from './components/Users';
+
+class App extends Component {
+
+  state = {
+    users: []
+  }
+
+  // getUser = async (e) => {
+  //   const userName = e.target.elements.userName.value;
+  //   e.preventDefault();
+  //   const apiCall = await fetch(`http://127.0.0.1:8000/api/users`);
+    
+  //   const data = await apiCall.json();
+  //   this.setState({ users: data });
+  //   console.log(this.state.users);
+  // }
+
+  componentDidMount() {
+    fetch('http://127.0.0.1:8000/api/users')
+    .then(res => res.json())
+    .then((data) => {
+      this.setState({ users: data })
+    })
+    .catch(console.log)
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">Admin User Dashboard</h1>
+        </header>
+        <Users users={this.state.users}/>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
